@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, SafeAreaView, ScrollView,} from 'react-native';
+import { ActivityIndicator, Pressable, SafeAreaView, ScrollView,} from 'react-native';
 import axios from 'axios';
 import Poke from '../types/Pokemon';
 import PokemonResult from '../types/PokemonResult';
@@ -8,7 +8,7 @@ import PokemonList from '../components/PokemonList';
 const baseUrlAPI = 'https://pokeapi.co/api/v2/pokemon';
 const vInicial: Poke[] = [];
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [contenido, setContenido] = useState(vInicial);
   const [count, setCount] = useState(0);
   const [next, setNext] = useState("");
@@ -78,6 +78,10 @@ const handleScroll = ({nativeEvent}) =>{
   }
 }
 
+const handlePress = (codigo:number) => {
+  navigation.navigate('Details', {codigo:codigo});
+};
+
 useEffect(()=> {
   solicitud();
 }, []);
@@ -90,7 +94,15 @@ useEffect(()=> {
     <SafeAreaView>
       <ScrollView onScroll={handleScroll}>
           {contenido.map((p, index)=>{
-            return <PokemonList key={`contenido-${index+1}`} codigo={index+1} pokemons={p} />
+            return (
+              <Pressable onPress={()=> handlePress(index+1)}>
+                <PokemonList 
+                  key={`contenido-${index+1}`} 
+                  codigo={index+1} 
+                  pokemons={p}
+                />
+              </Pressable>
+            );  
           })}
           {loading && <ActivityIndicator size={'large'}/>}
       </ScrollView>

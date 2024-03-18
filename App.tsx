@@ -1,54 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
-import axios from 'axios';
-import Poke from './types/Pokemon';
-import PokemonResult from './types/PokemonResult';
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react'
+import Home from './screens/Home';
+import StartScreen from './screens/StartScreen';
+import Details from './screens/Details';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const baseUrlAPI = 'https://pokeapi.co/api/v2/pokemon';
-const vInicial: Poke[] = [];
+const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [contenido, setContenido] = useState(vInicial);
-  const [count, setCount] = useState(0);
-  const [next, setNext] = useState("");
-  const [previous, setPrevious] = useState('');
-
-
-  const solicitud = async()=>{
-    try {
-      const result  = await axios.get(`${baseUrlAPI}`);
-      if(result.data){
-        const datos:PokemonResult = result.data;
-        setCount(datos.count);
-        setNext(datos.next);
-        if(datos.previous == null){
-          setPrevious('');
-        }else{
-          setPrevious(datos.previous as string);
-        }
-        setContenido(datos.results);
-      }
-      
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-useEffect(()=> {
-  solicitud();
-}, []);
-
   return (
-    <SafeAreaView>
-      {contenido.map((p, index)=>{
-        return(
-          <View key={`Pokemon-${index+1}`}>
-            <Text>{p.name}</Text>
-          </View>
-        )
-      })}
-    </SafeAreaView>
-  );
-
-};
+      <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen 
+          name= "StarsCreen"
+          component={StartScreen}
+          options={{
+            headerTransparent: true,
+            headerTitle: '',
+            headerStyle:{backgroundColor:'transparent'}
+           }}
+        />
+        <Stack.Screen
+        name= "Home"
+        component={Home}
+        options={{
+          headerTransparent: true,
+          headerTitle: '',
+          headerStyle:{backgroundColor:'transparent'},
+          headerBackVisible: false,
+         }}
+        />
+        <Stack.Screen
+        name= "Details"
+        component={Details}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
 export default App;

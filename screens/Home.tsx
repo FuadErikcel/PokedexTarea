@@ -93,17 +93,11 @@ useEffect(()=> {
   return (
     <SafeAreaView>
       <ScrollView onScroll={handleScroll}>
-          {contenido.map((p, index)=>{
-            return (
-              <Pressable onPress={()=> handlePress(index+1)}>
-                <PokemonList 
-                  key={`contenido-${index+1}`} 
-                  codigo={index+1} 
-                  pokemons={p}
-                />
-              </Pressable>
-            );  
-          })}
+          {contenido.map((p, index) => (
+            <Pressable key={p.name} onPress={() => handlePress(index + 1)}>
+              <PokemonList codigo={index + 1} pokemons={p} />
+            </Pressable>
+          ))}
           {loading && <ActivityIndicator size={'large'}/>}
       </ScrollView>
     </SafeAreaView>

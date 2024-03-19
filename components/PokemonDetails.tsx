@@ -1,15 +1,14 @@
 import React from "react";
 import Poke from "../types/Pokemon";
 import { StyleSheet, Text, View, Image } from "react-native";
-
-
+import PokeAbility from "../types/PokemonAbilities";
 
 type PokemonProps = {
     codigo: number,
-    pokemons: Poke;
+    abilities: PokeAbility;
 };
 
-const PokemonList = (props: PokemonProps) =>{
+const PokemonDetails = (props: PokemonProps) =>{
     return(
         <View style={styles.container}>
             <View style={styles.contenedorPokemon}>
@@ -17,14 +16,14 @@ const PokemonList = (props: PokemonProps) =>{
                 style={styles.ImagePokemon}
                 source={{uri: `https://raw.githubusercontent.com/PokeAPI/sprites/2a6a6b66983a97a6bdc889b9e0a2a42a25e2522e/sprites/pokemon/${props.codigo}.png`}}/>
                 <View style = {styles.contenedorDatosGenerales }>
-                    <Text style={styles.nombreEnFicha}>{props.pokemons.name}</Text>
-                    <Text style={styles.nombreEnFicha}>ID: {props.codigo}</Text>
+                    <Text style={styles.nombreEnFicha}>{props.abilities.flavor_text}</Text>
                 </View>
             </View>   
         </View>
             
     );  
 };
+
 const styles = StyleSheet.create({
     contenedorPokemon:{
         height: 90,
@@ -59,5 +58,4 @@ const styles = StyleSheet.create({
       },
 });
 
-
-export default PokemonList;
+export default PokemonDetails; 

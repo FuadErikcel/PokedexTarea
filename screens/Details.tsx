@@ -8,30 +8,34 @@ const baseUrlAPI = 'https://pokeapi.co/api/v2/pokemon';
 
 
 const Details = ({navigation, route}) => {
-  // useEffect(()=>{
-  //   loadPoke();   
-  // }, [])
+  const [contenido, setContenido] = useState<Poke>();
+  const loadPoke = async ()=>{
+    const codigo = route.params.codigo;
+    const result  = await axios.get(`${baseUrlAPI}/${codigo}`);
 
-  // const [contenido, setContenido] = useState<Poke>();
-  // const loadPoke = async ()=>{
-  //   const codigo = route.params.codigo;
-  //   const result  = await axios.get(`${baseUrlAPI}/${codigo}/`);
+    if(result.data){
+      setContenido(result.data);
+    }
+  };
 
-  //   if(result.data){
-  //     setContenido(result.data)
-  //   }
-  // }
+  useEffect(()=>{
+    loadPoke();
+    console.log(route.params.codigo)   
+  }, [])
 
   return (
     <SafeAreaView>
-       {/* <Image
+       <Image
           style={styles.ImagePokemon}
-          source={{uri: `https://raw.githubusercontent.com/PokeAPI/sprites/2a6a6b66983a97a6bdc889b9e0a2a42a25e2522e/sprites/pokemon/${route.params.codigo}.png`}}
+          source={{uri: `https://raw.githubusercontent.com/PokeAPI/sprites/2a6a6b66983a97a6bdc889b9e0a2a42a25e2522e/sprites/pokemon/${route.params.codigo}.png`,}}
         />
-        <Text>{contenido?.height}</Text> */}
+        <Text>{contenido?.height}</Text>
+        <Text>codigo</Text>
     </SafeAreaView>
   )
 }
+
+
 const styles = StyleSheet.create({
   ImagePokemon: {
       height: 76,
